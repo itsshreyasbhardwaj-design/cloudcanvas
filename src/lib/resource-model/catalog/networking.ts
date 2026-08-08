@@ -1,0 +1,87 @@
+import type { ResourceCatalogEntry } from "../types";
+
+export const networkingCatalog: ResourceCatalogEntry[] = [
+  {
+    kind: "networking.region",
+    category: "networking",
+    label: "Region",
+    description: "A geographic cloud region container.",
+    icon: "Globe",
+    isContainer: true,
+  },
+  {
+    kind: "networking.availability-zone",
+    category: "networking",
+    label: "Availability Zone",
+    description: "An isolated failure domain within a region.",
+    icon: "Boxes",
+    isContainer: true,
+  },
+  {
+    kind: "networking.vpc",
+    category: "networking",
+    label: "VPC",
+    description: "Isolated virtual network.",
+    icon: "Network",
+    isContainer: true,
+    defaultFields: [{ key: "cidr", label: "CIDR block", type: "string", default: "10.0.0.0/16", required: true }],
+  },
+  {
+    kind: "networking.subnet",
+    category: "networking",
+    label: "Subnet",
+    description: "A segment of a VPC's IP address range.",
+    icon: "SquareStack",
+    isContainer: true,
+    defaultFields: [
+      { key: "cidr", label: "CIDR block", type: "string", default: "10.0.1.0/24", required: true },
+      { key: "isPublic", label: "Public subnet", type: "boolean", default: false },
+    ],
+  },
+  {
+    kind: "networking.load-balancer",
+    category: "networking",
+    label: "Load Balancer",
+    description: "Distributes traffic across compute resources.",
+    icon: "Waypoints",
+    defaultFields: [
+      { key: "scheme", label: "Scheme", type: "select", default: "internet-facing", options: [
+        { value: "internet-facing", label: "Internet-facing" },
+        { value: "internal", label: "Internal" },
+      ] },
+    ],
+    commonlyConnectsTo: ["compute.vm", "compute.container", "compute.kubernetes"],
+  },
+  {
+    kind: "networking.nat-gateway",
+    category: "networking",
+    label: "NAT Gateway",
+    description: "Lets private-subnet resources reach the internet outbound.",
+    icon: "ArrowRightLeft",
+    commonlyConnectsTo: ["networking.subnet", "networking.internet-gateway"],
+  },
+  {
+    kind: "networking.internet-gateway",
+    category: "networking",
+    label: "Internet Gateway",
+    description: "Connects a VPC to the public internet.",
+    icon: "Wifi",
+    commonlyConnectsTo: ["networking.vpc"],
+  },
+  {
+    kind: "networking.firewall",
+    category: "networking",
+    label: "Firewall / Security Group",
+    description: "Stateful traffic filtering rules.",
+    icon: "ShieldCheck",
+    commonlyConnectsTo: ["compute.vm", "database.postgresql"],
+  },
+  {
+    kind: "networking.dns",
+    category: "networking",
+    label: "DNS",
+    description: "Managed DNS zone and records.",
+    icon: "AtSign",
+    commonlyConnectsTo: ["networking.load-balancer"],
+  },
+];
