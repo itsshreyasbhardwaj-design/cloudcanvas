@@ -39,3 +39,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Security hardening: secret-shaped files, none currently present
+!.env.example
+*.key
+credentials*.json
+service-account*.json
+*.log
+*.sqlite
+*.db
